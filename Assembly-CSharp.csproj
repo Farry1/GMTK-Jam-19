@@ -62,9 +62,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\FairyMovement.cs" />
+    <Compile Include="Assets\Scripts\FairyMovement\FairyMovement.cs" />
+    <Compile Include="Assets\Scripts\FairyMovement\FairyMovementController.cs" />
+    <Compile Include="Assets\Scripts\FairyMovement\LightDetector.cs" />
     <Compile Include="Assets\Scripts\GhostController.cs" />
-    <Compile Include="Assets\Scripts\LightDetector.cs" />
+    <Compile Include="Assets\Scripts\PathCalculations.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Projekte/Unity/GMTK-Jam 19/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
