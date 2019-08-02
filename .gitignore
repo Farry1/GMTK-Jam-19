@@ -1,0 +1,14 @@
+#Unity
+/.vs
+/Temp
+/Library
+/obj
+/Logs
+
+#FMOD
+/Assets/FMODStudioCache.asset
+/Assets/FMODStudioCache.asset.meta
+fmod.log
+fmod_editor.log
+FMOD/howl/.cache
+
