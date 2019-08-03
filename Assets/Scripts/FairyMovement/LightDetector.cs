@@ -5,12 +5,14 @@ using UnityEngine;
 public class LightDetector : MonoBehaviour
 {
     public bool isDetected;
+    public float maxDetectionRange = 10f;
+    Fairy fairyMovement;
     LayerMask layerMask;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        fairyMovement = GetComponent<Fairy>();
     }
 
     // Update is called once per frame
@@ -28,12 +30,12 @@ public class LightDetector : MonoBehaviour
         Debug.DrawRay(transform.position, direction, Color.red);
 
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out hit, maxDetectionRange))
         {
             if (hit.collider.tag == "Ghost")
             {
-                Debug.Log("hit");
-            }
+                fairyMovement.Petrify();
+            }            
         }
     }
 }
