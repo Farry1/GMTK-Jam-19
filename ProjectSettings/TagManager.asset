@@ -15,7 +15,7 @@ TagManager:
   - 
   - 
   - Ghost
-  - 
+  - Lines
   - 
   - 
   - 
@@ -41,4 +41,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Lines
+    uniqueID: 936041509
     locked: 0

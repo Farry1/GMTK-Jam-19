@@ -20,12 +20,14 @@ public class GhostController : MonoBehaviour
 
     bool alreadyWaitingForPlayerTurn = false;
 
-    bool nextWaypointSet = true;
-    private static GhostController _instance;
-    public static GhostController Instance { get { return _instance; } }
-
     int steps = 1;
     int stepCounter = 0;
+
+    bool nextWaypointSet = true;
+
+
+    private static GhostController _instance;
+    public static GhostController Instance { get { return _instance; } }    
 
     private void Awake()
     {

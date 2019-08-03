@@ -15,15 +15,22 @@ public class Fairy : MonoBehaviour
     public float speed = 3.5f;
     public float teamUpDistance = 2f;
 
-    private Renderer renderer;
+    private Renderer rendererSphere;
+    private Renderer rendererBody;
     private Material initialMaterial;
+    private Material initialMaterialBody;
     public Material petrifiedMaterial;
+    public Material petrifiedMaterialBody;
+    public GameObject selectedIndicator;
+
+    public GameObject eye;
+    public GameObject eye2;
 
 
     [HideInInspector] public LineRenderer lineRenderer;
 
     [SerializeField] private float maxPathLength = 5f;
-    public float pathLengthLeft;
+    [HideInInspector] public float pathLengthLeft;
 
     private NavMeshPath path;
 
@@ -35,10 +42,13 @@ public class Fairy : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {        
+    {
+        selectedIndicator.SetActive(false);
         GetOtherFairies();
-        renderer = GetComponent<Renderer>();
-        initialMaterial = renderer.material;
+        rendererSphere = transform.Find("FairyBody").Find("Sphere").GetComponent<Renderer>();
+        rendererBody = transform.Find("FairyBody").GetComponent<Renderer>();
+        initialMaterial = rendererSphere.material;
+        initialMaterialBody = rendererBody.material;
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.enabled = false;
 
@@ -81,19 +91,25 @@ public class Fairy : MonoBehaviour
 
     public void Petrify()
     {
-        renderer.material = petrifiedMaterial;
+        rendererSphere.material = petrifiedMaterial;
+        rendererBody.material = petrifiedMaterialBody;
         fairyState = FairyState.Petrified;
         CalculatePath(transform.position);
         SetPath();
         agent.speed = 0;
         GameManager.Instance.CheckForGameOver();
+        eye.SetActive(false);
+        eye2.SetActive(false);
     }
 
     public void Revive()
     {
-        renderer.material = initialMaterial;
+        rendererSphere.material = initialMaterial;
+        rendererBody.material = initialMaterialBody;
         fairyState = FairyState.Alive;
         agent.speed = speed;
+        eye.SetActive(true);
+        eye2.SetActive(true);
     }
 
     private void LookForHelp()
@@ -134,6 +150,7 @@ public class Fairy : MonoBehaviour
         if (pathLengthLeft < 0.35)
             pathLengthLeft = 0;
         isSelected = false;
+        selectedIndicator.SetActive(false);
     }
 
     public void ResetFairy()

@@ -11,6 +11,8 @@ public class FairyMovementController : MonoBehaviour
     public Material lineDefault;
     public Material lineFail;
 
+    public RaycastHit mouseHit;
+
     private static FairyMovementController _instance;
     public static FairyMovementController Instance { get { return _instance; } }
 
@@ -35,46 +37,48 @@ public class FairyMovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RaycastHit hit;
-
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out mouseHit, 100))
         {
-            if (selectedFairyMovement != null && selectedFairyMovement.fairyState != Fairy.FairyState.Petrified)
+            if (selectedFairyMovement != null &&
+                selectedFairyMovement.fairyState != Fairy.FairyState.Petrified &&
+                GameManager.Instance.gameState == GameManager.GameState.PlayerTurn)
             {
-                if (selectedFairyMovement.CalculatePath(hit.point) > selectedFairyMovement.pathLengthLeft)
+                if (selectedFairyMovement.CalculatePath(mouseHit.point) > selectedFairyMovement.pathLengthLeft)
                 {
                     //Debug.Log("Can't Move");
                     selectedFairyMovement.canMove = false;
-                    selectedFairyMovement.lineRenderer.SetColors(Color.red, Color.red);
                     selectedFairyMovement.lineRenderer.material = lineFail;
                 }
                 else
                 {
                     //Debug.Log("Can Move");
                     selectedFairyMovement.canMove = true;
-                    selectedFairyMovement.lineRenderer.SetColors(Color.white, Color.white);
                     selectedFairyMovement.lineRenderer.material = lineDefault;
                 }
             }
 
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) &&
+                GameManager.Instance.gameState == GameManager.GameState.PlayerTurn)
             {
-                if (hit.collider.tag == "Player")
+                if (mouseHit.collider.tag == "Player")
                 {
                     if (selectedFairyMovement != null)
+                    {
+                        selectedFairyMovement.selectedIndicator.SetActive(false);
                         selectedFairyMovement.isSelected = false;
+                    }
 
-
-                    selectedFairyMovement = hit.collider.gameObject.GetComponent<Fairy>();
+                    selectedFairyMovement = mouseHit.collider.gameObject.GetComponent<Fairy>();
                     selectedFairyMovement.isSelected = true;
+                    selectedFairyMovement.selectedIndicator.SetActive(true);
 
                     if (selectedFairyMovement != null && selectedFairyMovement.fairyState == Fairy.FairyState.Petrified)
                     {
                         selectedFairyMovement.isSelected = false;
+                        selectedFairyMovement.selectedIndicator.SetActive(false);
                         selectedFairyMovement = null;
                     }
-
                 }
                 else
                 {
@@ -91,9 +95,9 @@ public class FairyMovementController : MonoBehaviour
                 if (selectedFairyMovement != null)
                 {
                     selectedFairyMovement.isSelected = false;
+                    selectedFairyMovement.selectedIndicator.SetActive(false);
                     selectedFairyMovement = null;
                 }
-
             }
         }
     }
@@ -102,7 +106,7 @@ public class FairyMovementController : MonoBehaviour
     {
         GameObject[] fairiesObjects = GameObject.FindGameObjectsWithTag("Player");
 
-        foreach(GameObject fairy in fairiesObjects)
+        foreach (GameObject fairy in fairiesObjects)
         {
             allFairies.Add(fairy.GetComponent<Fairy>());
         }
@@ -110,7 +114,7 @@ public class FairyMovementController : MonoBehaviour
 
     public void ResetAllFairies()
     {
-        foreach(Fairy fairy in allFairies)
+        foreach (Fairy fairy in allFairies)
         {
             fairy.ResetFairy();
         }
