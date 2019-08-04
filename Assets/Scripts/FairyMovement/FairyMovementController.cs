@@ -6,7 +6,7 @@ public class FairyMovementController : MonoBehaviour
 {
     Fairy selectedFairyMovement;
 
-    List<Fairy> allFairies = new List<Fairy>();
+    [HideInInspector] public List<Fairy> allFairies = new List<Fairy>();
 
     public Material lineDefault;
     public Material lineFail;
@@ -102,6 +102,28 @@ public class FairyMovementController : MonoBehaviour
         }
     }
 
+    public bool AllFairiesPetrified()
+    {
+        foreach (Fairy fairy in allFairies)
+        {
+            if (fairy.fairyState == Fairy.FairyState.Alive)
+                return false;
+        }
+
+        return true;
+    }
+
+    public bool NoFairyPetrified()
+    {
+        foreach (Fairy fairy in allFairies)
+        {
+            if (fairy.fairyState == Fairy.FairyState.Petrified)
+                return false;
+        }
+
+        return true;
+    }
+
     void GetAllFairies()
     {
         GameObject[] fairiesObjects = GameObject.FindGameObjectsWithTag("Player");
@@ -118,5 +140,32 @@ public class FairyMovementController : MonoBehaviour
         {
             fairy.ResetFairy();
         }
+    }
+
+    public void DeactivateAllFairies()
+    {
+        foreach(Fairy fairy in allFairies)
+        {
+            fairy.gameObject.SetActive(false);
+        }
+    }
+
+    public bool AllFairiesInTeamRange()
+    {
+        float sum = 0;
+
+        foreach (Fairy fairy in allFairies)
+        {
+            sum += fairy.GetAverageDistanceToAllFairies();
+        }
+
+       
+        sum = sum / allFairies.Count;
+
+
+        if (sum <= allFairies[0].teamUpDistance && NoFairyPetrified())
+            return true;
+        else
+            return false;
     }
 }

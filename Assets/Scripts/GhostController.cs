@@ -82,8 +82,7 @@ public class GhostController : MonoBehaviour
 
     public void HighlightTargetWaypoint()
     {
-        Debug.Log("Highlighting next Field");
-
+        //Debug.Log("Highlighting next Field");
         int nextWaypointIndex = currentWaypointIndex + steps;
 
         if (nextWaypointIndex >= waypoints.Length)

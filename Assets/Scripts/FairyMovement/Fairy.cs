@@ -14,7 +14,7 @@ public class Fairy : MonoBehaviour
     public bool canMove = true;
     public float speed = 3.5f;
     public float teamUpDistance = 2f;
-
+    private Collider collider;
     private Renderer rendererSphere;
     private Renderer rendererBody;
     private Material initialMaterial;
@@ -26,6 +26,12 @@ public class Fairy : MonoBehaviour
     public GameObject eye;
     public GameObject eye2;
 
+    bool playIntro = false;
+    bool playOutro = true;
+    private Vector3 startPosition;
+    private Vector3 targetPosition;
+    float t;
+    public float timeToReachTarget = 0.1f;
 
     [HideInInspector] public LineRenderer lineRenderer;
 
@@ -40,9 +46,17 @@ public class Fairy : MonoBehaviour
 
     private List<GameObject> otherFairies = new List<GameObject>();
 
+    private void Awake()
+    {
+
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        startPosition = new Vector3(transform.position.x, 50f, transform.position.z);
+        targetPosition = transform.position;
+        t = 0;
         selectedIndicator.SetActive(false);
         GetOtherFairies();
         rendererSphere = transform.Find("FairyBody").Find("Sphere").GetComponent<Renderer>();
@@ -51,11 +65,12 @@ public class Fairy : MonoBehaviour
         initialMaterialBody = rendererBody.material;
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.enabled = false;
-
+        collider = GetComponent<Collider>();
         path = new NavMeshPath();
         pathLengthLeft = maxPathLength;
         lightDetector = GetComponent<LightDetector>();
         agent = GetComponent<NavMeshAgent>();
+        agent.updatePosition = true;
     }
 
     // Update is called once per frame
@@ -64,13 +79,42 @@ public class Fairy : MonoBehaviour
         switch (fairyState)
         {
             case FairyState.Alive:
-                if (isSelected)
+                if (isSelected && !Input.GetMouseButton(2))
                     lineRenderer.enabled = true;
                 else
                     lineRenderer.enabled = false;
                 break;
             case FairyState.Petrified:
                 LookForHelp();
+                break;
+        }
+
+
+        switch (GameManager.Instance.gameState)
+        {
+            case GameManager.GameState.Intro:
+                lightDetector.enabled = false;
+                //Intro Animation
+                if (playIntro)
+                {
+                    Debug.Log("Play Intro for :" + gameObject.name);
+                    t += Time.deltaTime / timeToReachTarget;
+                    Debug.Log(t);
+                    transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+                }
+                else
+                {
+                    transform.position = startPosition;
+                }
+                break;
+
+            case GameManager.GameState.PlayerTurn:
+                lightDetector.enabled = true;
+                break;
+
+            case GameManager.GameState.Outro:
+                t += Time.deltaTime / timeToReachTarget;
+                transform.position = Vector3.Lerp(startPosition, targetPosition, t);
                 break;
         }
     }
@@ -91,19 +135,25 @@ public class Fairy : MonoBehaviour
 
     public void Petrify()
     {
-        rendererSphere.material = petrifiedMaterial;
-        rendererBody.material = petrifiedMaterialBody;
-        fairyState = FairyState.Petrified;
-        CalculatePath(transform.position);
-        SetPath();
-        agent.speed = 0;
-        GameManager.Instance.CheckForGameOver();
-        eye.SetActive(false);
-        eye2.SetActive(false);
+        if (GameManager.Instance.gameState != GameManager.GameState.Outro ||
+           GameManager.Instance.gameState != GameManager.GameState.Intro)
+        {
+            collider.enabled = false;
+            rendererSphere.material = petrifiedMaterial;
+            rendererBody.material = petrifiedMaterialBody;
+            fairyState = FairyState.Petrified;
+            CalculatePath(transform.position);
+            SetPath();
+            agent.speed = 0;
+            GameManager.Instance.CheckForGameOver();
+            eye.SetActive(false);
+            eye2.SetActive(false);
+        }
     }
 
     public void Revive()
     {
+        collider.enabled = true;
         rendererSphere.material = initialMaterial;
         rendererBody.material = initialMaterialBody;
         fairyState = FairyState.Alive;
@@ -155,7 +205,34 @@ public class Fairy : MonoBehaviour
 
     public void ResetFairy()
     {
-        Debug.Log("Reset Fairy " + gameObject.name);
+        //Debug.Log("Reset Fairy " + gameObject.name);
         pathLengthLeft = maxPathLength;
+    }
+
+    public float GetAverageDistanceToAllFairies()
+    {
+        float sum = 0;
+        foreach (GameObject fairy in otherFairies)
+        {
+            sum += Vector3.Distance(transform.position, fairy.transform.position);
+        }
+
+        return sum / otherFairies.Count;
+    }
+
+    public void PlayIntroAnimation()
+    {
+        t = 0;
+        playIntro = true;
+    }
+
+    public void PlayOutroAnimation()
+    {
+        collider.enabled = false;
+        t = 0;
+        startPosition = transform.position;
+        targetPosition = new Vector3(transform.position.x, transform.position.y + 50, transform.position.z);
+
+        playOutro = true;
     }
 }

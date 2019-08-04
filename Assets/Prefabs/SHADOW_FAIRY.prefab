@@ -613,8 +613,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.49, y: 0.69, z: 0.32}
+  m_Center: {x: 0, y: -0.12, z: 0}
 --- !u!114 &5168325742203083782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -674,6 +674,7 @@ MonoBehaviour:
   selectedIndicator: {fileID: 151828272}
   eye: {fileID: 4790711008371945969}
   eye2: {fileID: 4790711009470347989}
+  timeToReachTarget: 1
   lineRenderer: {fileID: 0}
   maxPathLength: 7
   pathLengthLeft: 0
@@ -725,7 +726,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.171875
+        value: 0.0873642
         inSlope: 0
         outSlope: 0
         tangentMode: 0
