@@ -15,6 +15,7 @@ public class GhostController : MonoBehaviour
 
     public int minStep;
     public int maxStep;
+    public float speed;
 
     private int currentWaypointIndex = 0;
 
@@ -25,9 +26,12 @@ public class GhostController : MonoBehaviour
 
     bool nextWaypointSet = true;
 
+    FMODUnity.StudioEventEmitter movementEmitter;
+    bool movementAudioIsPlaying = false;
+
 
     private static GhostController _instance;
-    public static GhostController Instance { get { return _instance; } }    
+    public static GhostController Instance { get { return _instance; } }
 
     private void Awake()
     {
@@ -43,12 +47,28 @@ public class GhostController : MonoBehaviour
 
     private void Start()
     {
+        movementEmitter = GetComponent<FMODUnity.StudioEventEmitter>();
         agent = GetComponent<NavMeshAgent>();
         steps = CalculateStep();
     }
 
     private void Update()
-    {
+    {        
+        if (agent.velocity.magnitude > 1f)
+        {
+            if (!movementAudioIsPlaying)
+            {
+                movementEmitter.Play();
+                movementAudioIsPlaying = true;
+            }
+        }
+        else if (agent.velocity.magnitude <= 3f)
+        {
+            movementEmitter.Stop();
+            movementAudioIsPlaying = false;
+        }
+
+
         if (GameManager.Instance.gameState == GameManager.GameState.EnemyTurn)
         {
             WaypointNavigation();
@@ -62,6 +82,10 @@ public class GhostController : MonoBehaviour
 
     void WaypointNavigation()
     {
+
+
+
+
         if (agent.remainingDistance <= agent.stoppingDistance && stepCounter <= steps)
         {
             if (currentWaypointIndex == waypoints.Length - 1)
@@ -69,7 +93,7 @@ public class GhostController : MonoBehaviour
                 currentWaypointIndex = 0;
                 stepCounter++;
             }
-            
+
             else
             {
                 currentWaypointIndex++;
@@ -105,7 +129,7 @@ public class GhostController : MonoBehaviour
         agent.speed = 0;
         yield return new WaitForSeconds(waypointPauseTime);
 
-        agent.speed = 3.5f;
+        agent.speed = speed;
     }
 
     IEnumerator WaitForPlayerTurn()
@@ -113,7 +137,6 @@ public class GhostController : MonoBehaviour
         if (!alreadyWaitingForPlayerTurn)
         {
             alreadyWaitingForPlayerTurn = true;
-            Debug.Log("Wait For Player Turn");
             yield return new WaitForSeconds(waypointPauseTime * 1.5f);
             GameManager.Instance.SwitchToPlayerTurn();
             steps = CalculateStep();

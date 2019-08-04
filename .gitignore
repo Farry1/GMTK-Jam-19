@@ -4,6 +4,7 @@
 /Library
 /obj
 /Logs
+/Stuff
 
 #FMOD
 /Assets/FMODStudioCache.asset

@@ -27,15 +27,35 @@ public class LightDetector : MonoBehaviour
         RaycastHit hit;
 
         Ray ray = new Ray(transform.position, direction);
-        Debug.DrawRay(transform.position, direction, Color.red);
-
 
         if (Physics.Raycast(ray, out hit, maxDetectionRange))
         {
             if (hit.collider.tag == "Ghost")
             {
-                fairyMovement.Petrify();
+                if(fairyMovement.fairyState != Fairy.FairyState.Petrified)
+                {
+                    FMODUnity.RuntimeManager.PlayOneShot(fairyMovement.freezeSound);
+                    fairyMovement.Petrify();
+                }                
             }            
         }
+    }
+
+    public bool CurrentlyHitByLight()
+    {
+        Vector3 direction = GhostController.Instance.transform.position - transform.position;
+        RaycastHit hit;
+
+        Ray ray = new Ray(transform.position, direction);
+
+        if (Physics.Raycast(ray, out hit, maxDetectionRange))
+        {
+            if (hit.collider.tag == "Ghost")
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

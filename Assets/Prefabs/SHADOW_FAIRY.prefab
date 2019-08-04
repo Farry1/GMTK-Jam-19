@@ -678,6 +678,9 @@ MonoBehaviour:
   lineRenderer: {fileID: 0}
   maxPathLength: 7
   pathLengthLeft: 0
+  setDestinationSound: event:/Fairy/SetDestination
+  reviveSound: event:/Fairy/Revive
+  freezeSound: event:/Fairy/Freeze
 --- !u!120 &4790711009519889787
 LineRenderer:
   m_ObjectHideFlags: 0

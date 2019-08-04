@@ -10,9 +10,7 @@ public class GameManager : MonoBehaviour
     public GameState gameState = GameState.Intro;
 
     public Levelmessage levelmessage;
-
     public Text turnText;
-
     private bool enemyTurnStarted = false;
 
     GameObject[] allFairiesObjects;
@@ -27,6 +25,8 @@ public class GameManager : MonoBehaviour
     bool isPlayingOutro = false;
     bool isPlayingIntro = false;
     bool isHandlingGameOver = false;
+
+    private FMODUnity.StudioEventEmitter ambienceEmitter;
 
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        ambienceEmitter = GetComponent<FMODUnity.StudioEventEmitter>();
         turnIndicatorImage = transform.Find("Canvas").Find("TurnIndicatorImage").GetComponent<Image>();
         allFairiesObjects = GameObject.FindGameObjectsWithTag("Player");
         SetAllFairies();
@@ -100,7 +101,7 @@ public class GameManager : MonoBehaviour
 
     void CheckWinCondition()
     {
-        if (FairyMovementController.Instance.AllFairiesInTeamRange())
+        if (FairyMovementController.Instance.AllFairiesInTeamRange() && ! FairyMovementController.Instance.NoFairyPetrified())
         {
             gameState = GameState.Outro;
             turnText.text = "Won";
@@ -165,6 +166,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator IntroAnimation()
     {
+        ambienceEmitter.Play();
         UIController.Instance.turnButton.SetActive(false);
         isPlayingIntro = true;
         foreach (Fairy fairy in FairyMovementController.Instance.allFairies)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using FMODUnity;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(LightDetector))]
@@ -39,6 +40,15 @@ public class Fairy : MonoBehaviour
     [HideInInspector] public float pathLengthLeft;
 
     private NavMeshPath path;
+
+    [EventRef]
+    public string setDestinationSound;
+
+    [EventRef]
+    public string reviveSound;
+
+    [EventRef]
+    public string freezeSound;
 
 
     LightDetector lightDetector;
@@ -97,9 +107,7 @@ public class Fairy : MonoBehaviour
                 //Intro Animation
                 if (playIntro)
                 {
-                    Debug.Log("Play Intro for :" + gameObject.name);
                     t += Time.deltaTime / timeToReachTarget;
-                    Debug.Log(t);
                     transform.position = Vector3.Lerp(startPosition, targetPosition, t);
                 }
                 else
@@ -160,6 +168,7 @@ public class Fairy : MonoBehaviour
         agent.speed = speed;
         eye.SetActive(true);
         eye2.SetActive(true);
+        FMODUnity.RuntimeManager.PlayOneShot(reviveSound);
     }
 
     private void LookForHelp()
@@ -168,7 +177,9 @@ public class Fairy : MonoBehaviour
         {
             float distance = Vector3.Distance(transform.position, otherFairy.transform.position);
 
-            if (distance < teamUpDistance)
+            if (distance < teamUpDistance &&
+                otherFairy.GetComponent<Fairy>().fairyState != Fairy.FairyState.Petrified &&
+                !lightDetector.CurrentlyHitByLight())
             {
                 Revive();
             }
@@ -201,6 +212,11 @@ public class Fairy : MonoBehaviour
             pathLengthLeft = 0;
         isSelected = false;
         selectedIndicator.SetActive(false);
+        if (fairyState != FairyState.Petrified)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(setDestinationSound);
+        }
+
     }
 
     public void ResetFairy()
