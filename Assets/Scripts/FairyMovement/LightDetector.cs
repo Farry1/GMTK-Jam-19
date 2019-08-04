@@ -23,22 +23,27 @@ public class LightDetector : MonoBehaviour
 
     void CheckForLightHit()
     {
-        Vector3 direction = GhostController.Instance.transform.position - transform.position;
-        RaycastHit hit;
-
-        Ray ray = new Ray(transform.position, direction);
-
-        if (Physics.Raycast(ray, out hit, maxDetectionRange))
+        if (GameManager.Instance.gameState == GameManager.GameState.EnemyTurn ||
+            GameManager.Instance.gameState == GameManager.GameState.PlayerTurn)
         {
-            if (hit.collider.tag == "Ghost")
+            Vector3 direction = GhostController.Instance.transform.position - transform.position;
+            RaycastHit hit;
+
+            Ray ray = new Ray(transform.position, direction);
+
+            if (Physics.Raycast(ray, out hit, maxDetectionRange))
             {
-                if(fairyMovement.fairyState != Fairy.FairyState.Petrified)
+                if (hit.collider.tag == "Ghost")
                 {
-                    FMODUnity.RuntimeManager.PlayOneShot(fairyMovement.freezeSound);
-                    fairyMovement.Petrify();
-                }                
-            }            
+                    if (fairyMovement.fairyState != Fairy.FairyState.Petrified)
+                    {
+                        FMODUnity.RuntimeManager.PlayOneShot(fairyMovement.freezeSound);
+                        fairyMovement.Petrify();
+                    }
+                }
+            }
         }
+
     }
 
     public bool CurrentlyHitByLight()

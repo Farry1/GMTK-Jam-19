@@ -22,7 +22,11 @@ public class UIController : MonoBehaviour
     public Text sceneTipsText;
     public Text sceneDoneText;
 
-
+    private string[] tipsContainer =
+        { "Use Middle Mouse Button to rotate",
+        "If a Shadow Fairy is petrified it can be resurrected if another one is nearby.",
+        "Sometimes the Raycast of the light is bad, sorry :("
+        };
 
     private void Awake()
     {
@@ -42,11 +46,14 @@ public class UIController : MonoBehaviour
     {
         overlayRenderer = overlayRendererObj.GetComponent<Image>();
         overlayRenderer.gameObject.SetActive(true);
-        sceneHeadline.text = GameManager.Instance.levelmessage.levelNumber;
-        sceneDescription.text = GameManager.Instance.levelmessage.levelDescription;
-        sceneLocation.text = GameManager.Instance.levelmessage.levelName;
-        sceneTipsText.text = GameManager.Instance.levelmessage.additionalGameOverText;
-        sceneDoneText.text = GameManager.Instance.levelmessage.levelNumber + " complete";
+
+        sceneHeadline.text = GameManager.Instance.levelNumber;
+        sceneDescription.text = GameManager.Instance.levelDescription;
+        sceneLocation.text = GameManager.Instance.levelName;
+        //sceneTipsText.text = GameManager.Instance.additionalGameOverText;
+        sceneTipsText.text = tipsContainer[Random.Range(0, tipsContainer.Length)];
+        sceneDoneText.text = GameManager.Instance.levelNumber + " complete";
+
     }
 
     // Update is called once per frame

@@ -143,8 +143,10 @@ public class Fairy : MonoBehaviour
 
     public void Petrify()
     {
+
         if (GameManager.Instance.gameState != GameManager.GameState.Outro ||
-           GameManager.Instance.gameState != GameManager.GameState.Intro)
+           GameManager.Instance.gameState != GameManager.GameState.Intro ||
+           GameManager.Instance.gameState != GameManager.GameState.PreLevel)
         {
             collider.enabled = false;
             rendererSphere.material = petrifiedMaterial;

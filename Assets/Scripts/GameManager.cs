@@ -9,7 +9,14 @@ public class GameManager : MonoBehaviour
     public enum GameState { PreLevel, Intro, EnemyTurn, PlayerTurn, GameOver, Outro, Win }
     public GameState gameState = GameState.Intro;
 
-    public Levelmessage levelmessage;
+    //public Levelmessage levelmessage;
+
+    public string levelNumber;
+    public string levelName;
+    public string levelDescription;
+
+    public string additionalGameOverText;
+
     public Text turnText;
     private bool enemyTurnStarted = false;
 
@@ -68,7 +75,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Intro:
-                turnText.text = levelmessage.levelName;
+                turnText.text = "Initialising";
                 if (!isPlayingIntro)
                     StartCoroutine(IntroAnimation());
                 break;
@@ -101,13 +108,14 @@ public class GameManager : MonoBehaviour
 
     void CheckWinCondition()
     {
-        if (FairyMovementController.Instance.AllFairiesInTeamRange() && ! FairyMovementController.Instance.NoFairyPetrified())
+
+        Debug.Log("Check Win Con!");
+
+        if (FairyMovementController.Instance.AllFairiesInTeamRange() 
+            && FairyMovementController.Instance.NoFairyPetrified())
         {
             gameState = GameState.Outro;
-            turnText.text = "Won";
-
-
-            //UIController.Instance.ShowWinOverlay();
+            turnText.text = "Won";            
         }
     }
 

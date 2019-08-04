@@ -628,7 +628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDetected: 0
-  maxDetectionRange: 5
+  maxDetectionRange: 6
 --- !u!195 &5168325742203083779
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -676,7 +676,7 @@ MonoBehaviour:
   eye2: {fileID: 4790711009470347989}
   timeToReachTarget: 1
   lineRenderer: {fileID: 0}
-  maxPathLength: 7
+  maxPathLength: 6
   pathLengthLeft: 0
   setDestinationSound: event:/Fairy/SetDestination
   reviveSound: event:/Fairy/Revive
