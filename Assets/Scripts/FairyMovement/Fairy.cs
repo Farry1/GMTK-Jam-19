@@ -201,7 +201,8 @@ public class Fairy : MonoBehaviour
             }
         }
 
-        lineRenderer.SetPositions(path.corners);
+        lineRenderer.SetPositions(path.corners);     
+
         return PathCalculations.PathLength(path);
     }
 

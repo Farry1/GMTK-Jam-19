@@ -8,7 +8,7 @@ public class PathCalculations : MonoBehaviour
     public static float PathLength(NavMeshPath path)
     {
         if (path.corners.Length < 2)
-            return 0;
+            return Mathf.Infinity;
 
         Vector3 previousCorner = path.corners[0];
         float lengthSoFar = 0.0F;

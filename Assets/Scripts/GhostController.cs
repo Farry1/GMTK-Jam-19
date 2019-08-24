@@ -17,6 +17,8 @@ public class GhostController : MonoBehaviour
     public int maxStep;
     public float speed;
 
+    public Light light;
+
     private int currentWaypointIndex = 0;
 
     bool alreadyWaitingForPlayerTurn = false;
@@ -47,6 +49,7 @@ public class GhostController : MonoBehaviour
 
     private void Start()
     {
+        light = GetComponentInChildren<Light>();
         movementEmitter = GetComponent<FMODUnity.StudioEventEmitter>();
         agent = GetComponent<NavMeshAgent>();
         steps = CalculateStep();

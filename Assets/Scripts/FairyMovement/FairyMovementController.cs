@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FairyMovementController : MonoBehaviour
 {
-    Fairy selectedFairyMovement;
+    Fairy selectedFairy;
 
     [HideInInspector] public List<Fairy> allFairies = new List<Fairy>();
 
@@ -12,6 +12,8 @@ public class FairyMovementController : MonoBehaviour
     public Material lineFail;
 
     public RaycastHit mouseHit;
+
+    int notNavigableLayer = 11;
 
     private static FairyMovementController _instance;
     public static FairyMovementController Instance { get { return _instance; } }
@@ -28,6 +30,8 @@ public class FairyMovementController : MonoBehaviour
         }
     }
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,23 +41,29 @@ public class FairyMovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out mouseHit, 100))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out mouseHit, Mathf.Infinity))
         {
-            if (selectedFairyMovement != null &&
-                selectedFairyMovement.fairyState != Fairy.FairyState.Petrified &&
+            if (selectedFairy != null &&
+                selectedFairy.fairyState != Fairy.FairyState.Petrified &&
                 GameManager.Instance.gameState == GameManager.GameState.PlayerTurn)
             {
-                if (selectedFairyMovement.CalculatePath(mouseHit.point) > selectedFairyMovement.pathLengthLeft)
+
+                if (!IsPositionSave(mouseHit.point))
+                    MouseStateIndicator.Instance.SetMouseStateDanger();
+                else
+                    MouseStateIndicator.Instance.UnsetMouseState();
+
+
+                if (selectedFairy.CalculatePath(mouseHit.point) > selectedFairy.pathLengthLeft)
                 {
                     //Debug.Log("Can't Move");
-                    selectedFairyMovement.canMove = false;
-                    selectedFairyMovement.lineRenderer.material = lineFail;
+                    selectedFairy.canMove = false;
+                    selectedFairy.lineRenderer.material = lineFail;                    
                 }
                 else
                 {
-                    //Debug.Log("Can Move");
-                    selectedFairyMovement.canMove = true;
-                    selectedFairyMovement.lineRenderer.material = lineDefault;
+                    selectedFairy.canMove = true;
+                    selectedFairy.lineRenderer.material = lineDefault;
                 }
             }
 
@@ -63,43 +73,58 @@ public class FairyMovementController : MonoBehaviour
             {
                 if (mouseHit.collider.tag == "Player")
                 {
-                    if (selectedFairyMovement != null)
+                    if (selectedFairy != null)
                     {
-                        selectedFairyMovement.selectedIndicator.SetActive(false);
-                        selectedFairyMovement.isSelected = false;
+                        selectedFairy.selectedIndicator.SetActive(false);
+                        selectedFairy.isSelected = false;
                     }
 
-                    selectedFairyMovement = mouseHit.collider.gameObject.GetComponent<Fairy>();
-                    selectedFairyMovement.isSelected = true;
-                    selectedFairyMovement.selectedIndicator.SetActive(true);
+                    selectedFairy = mouseHit.collider.gameObject.GetComponent<Fairy>();
+                    selectedFairy.isSelected = true;
+                    selectedFairy.selectedIndicator.SetActive(true);
 
-                    if (selectedFairyMovement != null && selectedFairyMovement.fairyState == Fairy.FairyState.Petrified)
+                    if (selectedFairy != null && selectedFairy.fairyState == Fairy.FairyState.Petrified)
                     {
-                        selectedFairyMovement.isSelected = false;
-                        selectedFairyMovement.selectedIndicator.SetActive(false);
-                        selectedFairyMovement = null;
+                        selectedFairy.isSelected = false;
+                        selectedFairy.selectedIndicator.SetActive(false);
+                        selectedFairy = null;                        
                     }
                 }
                 else
                 {
-                    if (selectedFairyMovement != null && selectedFairyMovement.canMove)
+                    if (selectedFairy != null && selectedFairy.canMove)
                     {
-                        selectedFairyMovement.SetPath();
-                        selectedFairyMovement = null;
+                        selectedFairy.SetPath();
+                        selectedFairy = null;
+                        MouseStateIndicator.Instance.UnsetMouseState();
                     }
                 }
             }
 
             if (Input.GetMouseButtonDown(1))
             {
-                if (selectedFairyMovement != null)
+                if (selectedFairy != null)
                 {
-                    selectedFairyMovement.isSelected = false;
-                    selectedFairyMovement.selectedIndicator.SetActive(false);
-                    selectedFairyMovement = null;
+                    selectedFairy.isSelected = false;
+                    selectedFairy.selectedIndicator.SetActive(false);
+                    selectedFairy = null;
+                    MouseStateIndicator.Instance.UnsetMouseState();
                 }
             }
         }
+    }
+
+    private bool IsPositionSave(Vector3 point)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(point, (GhostController.Instance.transform.position - point), out hit, 6.5f))
+        {
+            if (hit.transform.tag == "Ghost")
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public bool AllFairiesPetrified()
@@ -144,7 +169,7 @@ public class FairyMovementController : MonoBehaviour
 
     public void DeactivateAllFairies()
     {
-        foreach(Fairy fairy in allFairies)
+        foreach (Fairy fairy in allFairies)
         {
             fairy.gameObject.SetActive(false);
         }
@@ -159,9 +184,7 @@ public class FairyMovementController : MonoBehaviour
             sum += fairy.GetAverageDistanceToAllFairies();
         }
 
-       
         sum = sum / allFairies.Count;
-
 
         if (sum <= allFairies[0].teamUpDistance && NoFairyPetrified())
             return true;

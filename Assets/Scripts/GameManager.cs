@@ -102,20 +102,20 @@ public class GameManager : MonoBehaviour
     public void CheckForGameOver()
     {
         if (FairyMovementController.Instance.AllFairiesPetrified())
+        {
+            Debug.Log("Game Over!°");
             gameState = GameState.GameOver;
-
+        }
     }
 
     void CheckWinCondition()
     {
 
-        Debug.Log("Check Win Con!");
-
-        if (FairyMovementController.Instance.AllFairiesInTeamRange() 
+        if (FairyMovementController.Instance.AllFairiesInTeamRange()
             && FairyMovementController.Instance.NoFairyPetrified())
         {
             gameState = GameState.Outro;
-            turnText.text = "Won";            
+            turnText.text = "Won";
         }
     }
 

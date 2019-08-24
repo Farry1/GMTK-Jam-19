@@ -6,13 +6,13 @@ public class LightDetector : MonoBehaviour
 {
     public bool isDetected;
     public float maxDetectionRange = 10f;
-    Fairy fairyMovement;
+    Fairy fairy;
     LayerMask layerMask;
 
     // Start is called before the first frame update
     void Start()
     {
-        fairyMovement = GetComponent<Fairy>();
+        fairy = GetComponent<Fairy>();
     }
 
     // Update is called once per frame
@@ -35,15 +35,14 @@ public class LightDetector : MonoBehaviour
             {
                 if (hit.collider.tag == "Ghost")
                 {
-                    if (fairyMovement.fairyState != Fairy.FairyState.Petrified)
+                    if (fairy.fairyState != Fairy.FairyState.Petrified)
                     {
-                        FMODUnity.RuntimeManager.PlayOneShot(fairyMovement.freezeSound);
-                        fairyMovement.Petrify();
+                        FMODUnity.RuntimeManager.PlayOneShot(fairy.freezeSound);
+                        fairy.Petrify();
                     }
                 }
             }
         }
-
     }
 
     public bool CurrentlyHitByLight()
