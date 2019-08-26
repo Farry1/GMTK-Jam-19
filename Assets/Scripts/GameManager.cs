@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public enum GameState { PreLevel, Intro, EnemyTurn, PlayerTurn, GameOver, Outro, Win }
+    public enum GameState { PreLevel, Intro, EnemyTurn, PlayerTurn, GameOver, Outro, Win, Pause }
     public GameState gameState = GameState.Intro;
 
     //public Levelmessage levelmessage;
@@ -80,8 +80,10 @@ public class GameManager : MonoBehaviour
                     StartCoroutine(IntroAnimation());
                 break;
             case GameState.EnemyTurn:
+                OnPause();
                 break;
             case GameState.PlayerTurn:
+                OnPause();
                 turnText.text = "Player Turn";
                 CheckWinCondition();
                 break;
@@ -89,6 +91,9 @@ public class GameManager : MonoBehaviour
             case GameState.Outro:
                 if (!isPlayingOutro)
                     StartCoroutine(OutroAnimations());
+                break;
+            case GameState.Pause:
+                OnResumeGame();
                 break;
             case GameState.GameOver:
                 if (!isHandlingGameOver)
@@ -99,18 +104,57 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void OnPause()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseGame();
+
+        }
+    }
+
+    GameState gameStateBeforePause;
+
+    public void PauseGame()
+    {
+        UIController.Instance.ShowInGameMenu();
+
+        gameStateBeforePause = gameState;
+        gameState = GameState.Pause;
+        Time.timeScale = 0;
+    }
+
+    private void OnResumeGame()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+
+            ResumeGame();
+        }
+    }
+
+    public void ResumeGame()
+    {
+        UIController.Instance.HideInGameMenu();
+
+        if (gameStateBeforePause == GameState.EnemyTurn)
+            SwitchToEnemyTurn();
+        else
+            SwitchToPlayerTurn();
+
+        Time.timeScale = 1;
+    }
+
     public void CheckForGameOver()
     {
         if (FairyMovementController.Instance.AllFairiesPetrified())
         {
-            Debug.Log("Game Over!°");
             gameState = GameState.GameOver;
         }
     }
 
     void CheckWinCondition()
     {
-
         if (FairyMovementController.Instance.AllFairiesInTeamRange()
             && FairyMovementController.Instance.NoFairyPetrified())
         {

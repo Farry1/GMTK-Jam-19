@@ -16,6 +16,8 @@ public class UIController : MonoBehaviour
     public GameObject winContainer;
     public GameObject gameOverContainer;
     public GameObject turnButton;
+    public GameObject inGameMenu;
+    public GameObject instructions;
     public Text sceneHeadline;
     public Text sceneDescription;
     public Text sceneLocation;
@@ -86,6 +88,17 @@ public class UIController : MonoBehaviour
     {
         turnIndicator.SetActive(false);
         gameOverContainer.SetActive(true);
+    }
+
+    public void ShowInGameMenu()
+    {        
+        inGameMenu.SetActive(true);        
+    }
+
+    public void HideInGameMenu()
+    {        
+        inGameMenu.SetActive(false);
+        instructions.SetActive(false);
     }
 
     IEnumerator FadeOut(float fadeSpeed)

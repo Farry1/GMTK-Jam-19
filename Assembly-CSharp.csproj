@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\FairyMovement\LightDetector.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GhostController.cs" />
+    <Compile Include="Assets\Scripts\InGameMenuController.cs" />
     <Compile Include="Assets\Scripts\LightFlickerEffect.cs" />
     <Compile Include="Assets\Scripts\MenuController.cs" />
     <Compile Include="Assets\Scripts\MouseStateIndicator.cs" />
