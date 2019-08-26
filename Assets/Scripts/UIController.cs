@@ -15,9 +15,10 @@ public class UIController : MonoBehaviour
     public GameObject preLevelContainer;
     public GameObject winContainer;
     public GameObject gameOverContainer;
-    public GameObject turnButton;
+    public GameObject nextTurnButton;
     public GameObject inGameMenu;
     public GameObject instructions;
+    public GameObject menuButton;
     public Text sceneHeadline;
     public Text sceneDescription;
     public Text sceneLocation;
@@ -91,22 +92,28 @@ public class UIController : MonoBehaviour
     }
 
     public void ShowInGameMenu()
-    {        
-        inGameMenu.SetActive(true);        
+    {
+        nextTurnButton.SetActive(false);
+        inGameMenu.SetActive(true);
+        menuButton.SetActive(false);
     }
 
     public void HideInGameMenu()
-    {        
+    {
+        nextTurnButton.SetActive(true);
         inGameMenu.SetActive(false);
         instructions.SetActive(false);
+        menuButton.SetActive(true);
     }
 
     IEnumerator FadeOut(float fadeSpeed)
     {
-        //Debug.Log("Fading");
+        Debug.Log("Fade Out!");
+
         Color newColor = overlayRenderer.color;
         for (float f = 1f; f >= 0; f -= fadeSpeed)
         {
+            Debug.Log(f);
             newColor.a = f;
             overlayRenderer.color = newColor;
             yield return new WaitForSeconds(fadeSpeed);
@@ -117,7 +124,6 @@ public class UIController : MonoBehaviour
 
     IEnumerator FadeIn(float fadeSpeed)
     {
-        Debug.Log("Fade In");
         Color newColor = overlayRenderer.color;
         for (float f = 0f; f <= 2f; f += fadeSpeed)
         {
@@ -125,7 +131,6 @@ public class UIController : MonoBehaviour
             overlayRenderer.color = newColor;
             yield return new WaitForSeconds(fadeSpeed);
         }
-        Debug.Log("Fade Done");
     }
 }
 

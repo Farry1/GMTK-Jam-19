@@ -172,7 +172,7 @@ public class GameManager : MonoBehaviour
     {
         gameState = GameState.PlayerTurn;
         turnText.text = "Player Turn";
-        UIController.Instance.turnButton.SetActive(true);
+        UIController.Instance.nextTurnButton.SetActive(true);
         GhostController.Instance.HighlightTargetWaypoint();
         FairyMovementController.Instance.ResetAllFairies();
         turnIndicatorImage.sprite = playerTurnIndicatorSprite;
@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
         GhostController.Instance.ResetHighlightColor();
         gameState = GameState.EnemyTurn;
         turnText.text = "Enemy Turn";
-        UIController.Instance.turnButton.SetActive(false);
+        UIController.Instance.nextTurnButton.SetActive(false);
         turnIndicatorImage.sprite = enemyTurnIndicatorSprite;
     }
 
@@ -210,7 +210,7 @@ public class GameManager : MonoBehaviour
     IEnumerator HandleGameOver()
     {
         isHandlingGameOver = true;
-        UIController.Instance.turnButton.SetActive(false);
+        UIController.Instance.nextTurnButton.SetActive(false);
         yield return new WaitForSeconds(2f);
         UIController.Instance.ShowGameOverContainer();
     }
@@ -219,7 +219,7 @@ public class GameManager : MonoBehaviour
     IEnumerator IntroAnimation()
     {
         ambienceEmitter.Play();
-        UIController.Instance.turnButton.SetActive(false);
+        UIController.Instance.nextTurnButton.SetActive(false);
         isPlayingIntro = true;
         foreach (Fairy fairy in FairyMovementController.Instance.allFairies)
         {
@@ -229,11 +229,13 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
         SwitchToPlayerTurn();
+        UIController.Instance.menuButton.SetActive(true);
     }
 
     IEnumerator OutroAnimations()
     {
         isPlayingOutro = true;
+        UIController.Instance.menuButton.SetActive(false);
 
         foreach (Fairy fairy in FairyMovementController.Instance.allFairies)
         {
