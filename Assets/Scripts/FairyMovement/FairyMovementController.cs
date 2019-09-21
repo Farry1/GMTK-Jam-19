@@ -58,7 +58,7 @@ public class FairyMovementController : MonoBehaviour
                 {
                     //Debug.Log("Can't Move");
                     selectedFairy.canMove = false;
-                    selectedFairy.lineRenderer.material = lineFail;                    
+                    selectedFairy.lineRenderer.material = lineFail;
                 }
                 else
                 {
@@ -87,7 +87,7 @@ public class FairyMovementController : MonoBehaviour
                     {
                         selectedFairy.isSelected = false;
                         selectedFairy.selectedIndicator.SetActive(false);
-                        selectedFairy = null;                        
+                        selectedFairy = null;
                     }
                 }
                 else
@@ -116,10 +116,20 @@ public class FairyMovementController : MonoBehaviour
 
     private bool IsPositionSave(Vector3 point)
     {
+        point += new Vector3(0, 0.355f, 0);      
+
+
+
+        Vector3 direction = GhostController.Instance.light.transform.position - point;
         RaycastHit hit;
-        if (Physics.Raycast(point, (GhostController.Instance.transform.position - point), out hit, 6.5f))
+
+        Ray ray = new Ray(point, direction);
+
+        Debug.DrawRay(ray.origin, ray.direction * 6, Color.red);
+
+        if (Physics.SphereCast(ray, 0.2f, out hit, GhostController.Instance.lightRaycaster.maxDetectionRange))
         {
-            if (hit.transform.tag == "Ghost")
+            if (hit.collider.tag == "Ghost_Center")
             {
                 return false;
             }

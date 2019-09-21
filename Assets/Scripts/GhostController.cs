@@ -11,6 +11,8 @@ public class GhostController : MonoBehaviour
     public Material hightlightMaterial;
 
     public Transform[] waypoints;
+    public Transform center;
+
     public float waypointPauseTime = 1;
 
     public int minStep;
@@ -18,6 +20,8 @@ public class GhostController : MonoBehaviour
     public float speed;
 
     public Light light;
+    public LightRaycaster lightRaycaster;
+
 
     private int currentWaypointIndex = 0;
 
@@ -53,10 +57,11 @@ public class GhostController : MonoBehaviour
         movementEmitter = GetComponent<FMODUnity.StudioEventEmitter>();
         agent = GetComponent<NavMeshAgent>();
         steps = CalculateStep();
+        lightRaycaster = GetComponent<LightRaycaster>();
     }
 
     private void Update()
-    {        
+    {
         if (agent.velocity.magnitude > 1f)
         {
             if (!movementAudioIsPlaying)

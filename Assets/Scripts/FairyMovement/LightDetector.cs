@@ -18,9 +18,10 @@ public class LightDetector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckForLightHit();
+        //CheckForLightHit();
     }
 
+    /*
     void CheckForLightHit()
     {
         if (GameManager.Instance.gameState == GameManager.GameState.EnemyTurn ||
@@ -62,4 +63,5 @@ public class LightDetector : MonoBehaviour
 
         return false;
     }
+    */
 }

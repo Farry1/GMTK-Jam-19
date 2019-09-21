@@ -27,6 +27,7 @@ public class Fairy : MonoBehaviour
     public GameObject eye;
     public GameObject eye2;
 
+
     bool playIntro = false;
     bool playOutro = true;
     private Vector3 startPosition;
@@ -181,7 +182,7 @@ public class Fairy : MonoBehaviour
 
             if (distance < teamUpDistance &&
                 otherFairy.GetComponent<Fairy>().fairyState != Fairy.FairyState.Petrified &&
-                !lightDetector.CurrentlyHitByLight())
+                !GhostController.Instance.lightRaycaster.CurrentlyHitByLight(this.transform))
             {
                 Revive();
             }
@@ -201,7 +202,7 @@ public class Fairy : MonoBehaviour
             }
         }
 
-        lineRenderer.SetPositions(path.corners);     
+        lineRenderer.SetPositions(path.corners);
 
         return PathCalculations.PathLength(path);
     }

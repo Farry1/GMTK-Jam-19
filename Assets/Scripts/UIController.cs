@@ -108,12 +108,9 @@ public class UIController : MonoBehaviour
 
     IEnumerator FadeOut(float fadeSpeed)
     {
-        Debug.Log("Fade Out!");
-
         Color newColor = overlayRenderer.color;
         for (float f = 1f; f >= 0; f -= fadeSpeed)
         {
-            Debug.Log(f);
             newColor.a = f;
             overlayRenderer.color = newColor;
             yield return new WaitForSeconds(fadeSpeed);

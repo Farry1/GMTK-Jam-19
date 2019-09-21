@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 151828274}
   - component: {fileID: 151828275}
   - component: {fileID: 6471171585219363376}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: arrow-down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,6 +58,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -124,7 +125,7 @@ GameObject:
   - component: {fileID: 4790711008312766584}
   - component: {fileID: 4790711008312766585}
   - component: {fileID: 4790711008312766582}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,6 +181,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -217,7 +219,7 @@ GameObject:
   - component: {fileID: 4790711008371945973}
   - component: {fileID: 4790711008371945970}
   - component: {fileID: 4790711008371945971}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Eye1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,6 +273,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -309,7 +312,7 @@ GameObject:
   - component: {fileID: 4790711008526388815}
   - component: {fileID: 4790711008526388812}
   - component: {fileID: 4790711008526388813}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FairyBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -393,6 +396,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -422,7 +426,7 @@ MeshCollider:
   m_GameObject: {fileID: 4790711008526388811}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
@@ -439,7 +443,7 @@ GameObject:
   - component: {fileID: 4790711009470347993}
   - component: {fileID: 4790711009470347990}
   - component: {fileID: 4790711009470347991}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Eye2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -493,6 +497,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -534,7 +539,8 @@ GameObject:
   - component: {fileID: 5168325742203083779}
   - component: {fileID: 5168325742203083776}
   - component: {fileID: 4790711009519889787}
-  m_Layer: 0
+  - component: {fileID: 1052243597}
+  m_Layer: 12
   m_Name: SHADOW_FAIRY
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -590,6 +596,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -622,7 +629,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5168325742203083785}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d39c7600d4ca1744a8513581349155f4, type: 3}
   m_Name: 
@@ -706,6 +713,7 @@ LineRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -776,3 +784,16 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &1052243597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5168325742203083785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3d4b0f84a333bb4a8c1745d1bf9282e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDetectionRange: 6

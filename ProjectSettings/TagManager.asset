@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ghost
+  - Ghost_Center
   layers:
   - Default
   - TransparentFX
@@ -18,9 +19,9 @@ TagManager:
   - Lines
   - NavigableTerrain
   - NotNavigable
-  - 
-  - 
-  - 
+  - Player
+  - Player_Hitable
+  - Ghost_Center
   - 
   - 
   - 
