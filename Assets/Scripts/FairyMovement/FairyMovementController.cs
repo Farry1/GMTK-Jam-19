@@ -41,6 +41,20 @@ public class FairyMovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (NoFairyCanMove() && GameManager.Instance.gameState == GameManager.GameState.PlayerTurn)
+        {
+            UIController.Instance.nextTurnTooltip.SetActive(true);
+        }
+        else
+        {
+            UIController.Instance.nextTurnTooltip.SetActive(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            SelectNextFairy();
+        };
+
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out mouseHit, Mathf.Infinity))
         {
             if (selectedFairy != null &&
@@ -71,22 +85,28 @@ public class FairyMovementController : MonoBehaviour
             if (Input.GetMouseButtonDown(0) &&
                 GameManager.Instance.gameState == GameManager.GameState.PlayerTurn)
             {
+
+
+
                 if (mouseHit.collider.tag == "Player")
                 {
                     if (selectedFairy != null)
                     {
                         selectedFairy.selectedIndicator.SetActive(false);
+                        //selectedFairy.energyContainer.SetActive(false);
                         selectedFairy.isSelected = false;
                     }
 
                     selectedFairy = mouseHit.collider.gameObject.GetComponent<Fairy>();
                     selectedFairy.isSelected = true;
                     selectedFairy.selectedIndicator.SetActive(true);
+                    //selectedFairy.energyContainer.SetActive(true);
 
                     if (selectedFairy != null && selectedFairy.fairyState == Fairy.FairyState.Petrified)
                     {
                         selectedFairy.isSelected = false;
                         selectedFairy.selectedIndicator.SetActive(false);
+                        //selectedFairy.energyContainer.SetActive(false);
                         selectedFairy = null;
                     }
                 }
@@ -107,6 +127,7 @@ public class FairyMovementController : MonoBehaviour
                 {
                     selectedFairy.isSelected = false;
                     selectedFairy.selectedIndicator.SetActive(false);
+                    //selectedFairy.energyContainer.SetActive(false);
                     selectedFairy = null;
                     MouseStateIndicator.Instance.UnsetMouseState();
                 }
@@ -114,9 +135,18 @@ public class FairyMovementController : MonoBehaviour
         }
     }
 
+
+    void SelectNextFairy()
+    {
+        if (GameManager.Instance.gameState == GameManager.GameState.PlayerTurn)
+            Debug.Log("Get Next");        
+
+    }
+
+
     private bool IsPositionSave(Vector3 point)
     {
-        point += new Vector3(0, 0.355f, 0);      
+        point += new Vector3(0, 0.355f, 0);
 
 
 
@@ -156,6 +186,16 @@ public class FairyMovementController : MonoBehaviour
                 return false;
         }
 
+        return true;
+    }
+
+    public bool NoFairyCanMove()
+    {
+        foreach (Fairy fairy in allFairies)
+        {
+            if (!fairy.MovementLeft() && fairy.fairyState == Fairy.FairyState.Alive)
+                return false;
+        }
         return true;
     }
 

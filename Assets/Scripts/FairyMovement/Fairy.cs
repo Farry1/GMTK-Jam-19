@@ -5,7 +5,6 @@ using UnityEngine.AI;
 using FMODUnity;
 
 [RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(LightDetector))]
 public class Fairy : MonoBehaviour
 {
     public enum FairyState { Alive, Petrified };
@@ -23,6 +22,8 @@ public class Fairy : MonoBehaviour
     public Material petrifiedMaterial;
     public Material petrifiedMaterialBody;
     public GameObject selectedIndicator;
+    public GameObject energyContainer;
+    public GameObject energyBar;
 
     public GameObject eye;
     public GameObject eye2;
@@ -51,8 +52,6 @@ public class Fairy : MonoBehaviour
     [EventRef]
     public string freezeSound;
 
-
-    LightDetector lightDetector;
     NavMeshAgent agent;
 
     private List<GameObject> otherFairies = new List<GameObject>();
@@ -69,6 +68,7 @@ public class Fairy : MonoBehaviour
         targetPosition = transform.position;
         t = 0;
         selectedIndicator.SetActive(false);
+        energyContainer.SetActive(false);
         GetOtherFairies();
         rendererSphere = transform.Find("FairyBody").Find("Sphere").GetComponent<Renderer>();
         rendererBody = transform.Find("FairyBody").GetComponent<Renderer>();
@@ -79,7 +79,6 @@ public class Fairy : MonoBehaviour
         collider = GetComponent<Collider>();
         path = new NavMeshPath();
         pathLengthLeft = maxPathLength;
-        lightDetector = GetComponent<LightDetector>();
         agent = GetComponent<NavMeshAgent>();
         agent.updatePosition = true;
     }
@@ -87,6 +86,18 @@ public class Fairy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.gameState == GameManager.GameState.PlayerTurn)
+        {
+            if (fairyState == FairyState.Alive)
+            {
+                energyContainer.SetActive(true);
+            }
+        }
+        else
+        {
+            energyContainer.SetActive(false);
+        }
+
         switch (fairyState)
         {
             case FairyState.Alive:
@@ -104,7 +115,7 @@ public class Fairy : MonoBehaviour
         switch (GameManager.Instance.gameState)
         {
             case GameManager.GameState.Intro:
-                lightDetector.enabled = false;
+
                 //Intro Animation
                 if (playIntro)
                 {
@@ -118,7 +129,7 @@ public class Fairy : MonoBehaviour
                 break;
 
             case GameManager.GameState.PlayerTurn:
-                lightDetector.enabled = true;
+
                 break;
 
             case GameManager.GameState.Outro:
@@ -126,6 +137,8 @@ public class Fairy : MonoBehaviour
                 transform.position = Vector3.Lerp(startPosition, targetPosition, t);
                 break;
         }
+
+        UpdateEnergyBar();
     }
 
     private void GetOtherFairies()
@@ -144,6 +157,8 @@ public class Fairy : MonoBehaviour
 
     public void Petrify()
     {
+        Debug.Log("Petryfiying: " + gameObject.name);
+
 
         if (GameManager.Instance.gameState != GameManager.GameState.Outro ||
            GameManager.Instance.gameState != GameManager.GameState.Intro ||
@@ -176,14 +191,19 @@ public class Fairy : MonoBehaviour
 
     private void LookForHelp()
     {
+        Debug.Log("Looking for help " + this.transform);
+
         foreach (GameObject otherFairy in otherFairies)
         {
             float distance = Vector3.Distance(transform.position, otherFairy.transform.position);
 
+            Debug.Log("Checking: " + otherFairy.name);
+
             if (distance < teamUpDistance &&
-                otherFairy.GetComponent<Fairy>().fairyState != Fairy.FairyState.Petrified &&
-                !GhostController.Instance.lightRaycaster.CurrentlyHitByLight(this.transform))
+                otherFairy.GetComponent<Fairy>().fairyState != Fairy.FairyState.Petrified
+                && !GhostController.Instance.lightRaycaster.CurrentlyHitByLight(this.transform))
             {
+                Debug.Log("reviving");
                 Revive();
             }
         }
@@ -191,6 +211,8 @@ public class Fairy : MonoBehaviour
 
     public float CalculatePath(Vector3 targetPosition)
     {
+
+
         NavMesh.CalculatePath(transform.position, targetPosition, NavMesh.AllAreas, path);
 
         if (path != null && path.corners.Length > 1)
@@ -204,7 +226,20 @@ public class Fairy : MonoBehaviour
 
         lineRenderer.SetPositions(path.corners);
 
-        return PathCalculations.PathLength(path);
+
+
+
+        //energyBar.transform.localScale = new Vector3(lengthToOne, 0, 0);
+
+        float length = PathCalculations.PathLength(path);
+        return length;
+    }
+
+
+    void UpdateEnergyBar()
+    {
+        float pathLengthPercent = pathLengthLeft / maxPathLength;
+        energyBar.transform.localScale = new Vector3(Mathf.Lerp(energyBar.transform.localScale.x, pathLengthPercent, Time.deltaTime * 3), 1, 1);
     }
 
 
@@ -212,15 +247,25 @@ public class Fairy : MonoBehaviour
     {
         agent.SetPath(path);
         pathLengthLeft -= PathCalculations.PathLength(agent.path);
-        if (pathLengthLeft < 0.35)
+        if (MovementLeft())
             pathLengthLeft = 0;
         isSelected = false;
         selectedIndicator.SetActive(false);
+        //energyContainer.SetActive(false);
         if (fairyState != FairyState.Petrified)
         {
             FMODUnity.RuntimeManager.PlayOneShot(setDestinationSound);
         }
+    }
 
+    public bool MovementLeft()
+    {
+        if (pathLengthLeft < 0.35f)
+        {
+            return true;
+        }
+        else
+            return false;
     }
 
     public void ResetFairy()

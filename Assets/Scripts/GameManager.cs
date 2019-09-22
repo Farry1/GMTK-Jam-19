@@ -71,15 +71,16 @@ public class GameManager : MonoBehaviour
     {
         switch (gameState)
         {
-            case GameState.PreLevel:
+            case GameState.PreLevel:                
                 break;
 
-            case GameState.Intro:
+            case GameState.Intro:               
                 turnText.text = "Initialising";
                 if (!isPlayingIntro)
                     StartCoroutine(IntroAnimation());
                 break;
             case GameState.EnemyTurn:
+                
                 OnPause();
                 break;
             case GameState.PlayerTurn:
@@ -88,14 +89,15 @@ public class GameManager : MonoBehaviour
                 CheckWinCondition();
                 break;
 
-            case GameState.Outro:
+            case GameState.Outro:                
                 if (!isPlayingOutro)
                     StartCoroutine(OutroAnimations());
                 break;
             case GameState.Pause:
+                
                 OnResumeGame();
                 break;
-            case GameState.GameOver:
+            case GameState.GameOver:                
                 if (!isHandlingGameOver)
                     StartCoroutine(HandleGameOver());
 

@@ -19,8 +19,8 @@ public class GhostController : MonoBehaviour
     public int maxStep;
     public float speed;
 
-    public Light light;
-    public LightRaycaster lightRaycaster;
+    [HideInInspector] public Light light;
+    [HideInInspector] public LightRaycaster lightRaycaster;
 
 
     private int currentWaypointIndex = 0;

@@ -27,11 +27,12 @@ public class LightRaycaster : MonoBehaviour
                 RaycastHit hit;
 
                 Ray ray = new Ray(transform.position, direction);
+                //Debug.DrawRay(ray.origin, ray.direction * maxDetectionRange, Color.red);
+
+
                 if (Physics.SphereCast(ray, 0.2f, out hit, maxDetectionRange))
                 {
-                    Debug.Log(hit.collider.name);
-
-                    if (hit.collider.tag == "Player")
+                    if (hit.collider.tag == "Player" && hit.collider.GetComponent<Fairy>() == fairy)
                     {
                         if (fairy.fairyState != Fairy.FairyState.Petrified)
                         {
@@ -46,19 +47,20 @@ public class LightRaycaster : MonoBehaviour
 
     public bool CurrentlyHitByLight(Transform fairy)
     {
-        Vector3 direction = fairy.transform.position - light.transform.position;
+        Vector3 direction = fairy.transform.position - GhostController.Instance.center.position;
         RaycastHit hit;
+        Ray ray = new Ray(GhostController.Instance.center.position, direction);
+        //Debug.DrawRay(ray.origin, ray.direction * maxDetectionRange, Color.cyan, 99f);
 
-        Ray ray = new Ray(light.transform.position, direction);
-
-        if (Physics.SphereCast(ray, 0.25f, out hit, maxDetectionRange))
+        if (Physics.SphereCast(ray, 0.2f, out hit, maxDetectionRange + 0.5f))
         {
-            if (hit.collider.tag == "Player")
+            if (hit.collider.tag == "Player_hitable")
             {
                 return true;
             }
         }
 
+        Debug.Log("return false");
         return false;
     }
 }

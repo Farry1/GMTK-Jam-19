@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ghost
   - Ghost_Center
+  - Player_hitable
   layers:
   - Default
   - TransparentFX

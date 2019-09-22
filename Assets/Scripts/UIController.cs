@@ -24,6 +24,7 @@ public class UIController : MonoBehaviour
     public Text sceneLocation;
     public Text sceneTipsText;
     public Text sceneDoneText;
+    public GameObject nextTurnTooltip;
 
     private string[] tipsContainer =
         { "Use Middle Mouse Button to rotate",
