@@ -25,6 +25,8 @@ public class UIController : MonoBehaviour
     public Text sceneTipsText;
     public Text sceneDoneText;
     public GameObject nextTurnTooltip;
+    public GameObject tooltips;
+    public Text tooltipText;
 
     private string[] tipsContainer =
         { "Use Middle Mouse Button to rotate",
@@ -44,6 +46,23 @@ public class UIController : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        GameManager.OnPlayerTurn += TooltipPlayerTurn;
+        GameManager.OnEnemyTurn += DisableTooltipText;
+        FairyMovementController.OnFairySelected += TooltipFairySelected;
+        FairyMovementController.OnFairyUnselected += TooltipPlayerTurn;
+        FairyMovementController.OnPathTooLong += TooltipPathTooLong;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnPlayerTurn -= TooltipPlayerTurn;
+        GameManager.OnEnemyTurn -= DisableTooltipText;
+        FairyMovementController.OnFairySelected -= TooltipFairySelected;
+        FairyMovementController.OnFairyUnselected -= TooltipPlayerTurn;
+        FairyMovementController.OnPathTooLong -= TooltipPathTooLong;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -129,6 +148,47 @@ public class UIController : MonoBehaviour
             overlayRenderer.color = newColor;
             yield return new WaitForSeconds(fadeSpeed);
         }
+    }
+
+    void TooltipPlayerTurn()
+    {
+        tooltips.SetActive(true);
+
+        if (FairyMovementController.Instance.NoFairyCanMove())
+        {
+            tooltipText.text = "The fairies have used all their energy for this round.";
+        }
+        else
+        {
+            tooltipText.text = "Select a fairy";
+        }
+    }
+
+    void DisableTooltipText()
+    {
+        tooltipText.text = "";
+        tooltips.SetActive(false);
+    }
+
+    void TooltipFairySelected()
+    {
+        tooltips.SetActive(true);
+        tooltipText.text = "Select a destination and click to move.";
+    }
+
+    void TooltipPathTooLong()
+    {
+        tooltips.SetActive(true);
+
+        if (FairyMovementController.Instance.NoFairyCanMove())
+        {
+            tooltipText.text = "This fairy has used all its energy.";
+        }
+        else
+        {
+            tooltipText.text = "The distance is too far.";
+        }
+
     }
 }
 

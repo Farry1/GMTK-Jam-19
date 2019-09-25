@@ -6,14 +6,19 @@ public class FairyMovementController : MonoBehaviour
 {
     Fairy selectedFairy;
 
+
+
     [HideInInspector] public List<Fairy> allFairies = new List<Fairy>();
 
     public Material lineDefault;
     public Material lineFail;
-
     public RaycastHit mouseHit;
-
     int notNavigableLayer = 11;
+
+    public delegate void TooltipAction();
+    public static event TooltipAction OnFairySelected;
+    public static event TooltipAction OnFairyUnselected;
+    public static event TooltipAction OnPathTooLong;
 
     private static FairyMovementController _instance;
     public static FairyMovementController Instance { get { return _instance; } }
@@ -73,11 +78,13 @@ public class FairyMovementController : MonoBehaviour
                     //Debug.Log("Can't Move");
                     selectedFairy.canMove = false;
                     selectedFairy.lineRenderer.material = lineFail;
+                    OnPathTooLong();
                 }
                 else
                 {
                     selectedFairy.canMove = true;
                     selectedFairy.lineRenderer.material = lineDefault;
+                    OnFairySelected();
                 }
             }
 
@@ -117,6 +124,7 @@ public class FairyMovementController : MonoBehaviour
                         selectedFairy.SetPath();
                         selectedFairy = null;
                         MouseStateIndicator.Instance.UnsetMouseState();
+                        OnFairyUnselected();
                     }
                 }
             }
@@ -130,6 +138,7 @@ public class FairyMovementController : MonoBehaviour
                     //selectedFairy.energyContainer.SetActive(false);
                     selectedFairy = null;
                     MouseStateIndicator.Instance.UnsetMouseState();
+                    OnFairyUnselected();
                 }
             }
         }
@@ -139,7 +148,7 @@ public class FairyMovementController : MonoBehaviour
     void SelectNextFairy()
     {
         if (GameManager.Instance.gameState == GameManager.GameState.PlayerTurn)
-            Debug.Log("Get Next");        
+            Debug.Log("Get Next");
 
     }
 

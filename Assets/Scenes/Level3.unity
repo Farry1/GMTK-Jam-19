@@ -9286,9 +9286,15 @@ PrefabInstance:
         type: 3}
       propertyPath: center
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2070930963}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3fb22078a83a13d41b7ce6b199f1ec8a, type: 3}
+--- !u!4 &2070930963 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1517201405, guid: 3fb22078a83a13d41b7ce6b199f1ec8a,
+    type: 3}
+  m_PrefabInstance: {fileID: 2070930962}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2131554286
 PrefabInstance:
   m_ObjectHideFlags: 0

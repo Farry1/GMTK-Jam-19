@@ -152,14 +152,10 @@ public class Fairy : MonoBehaviour
                 otherFairies.Add(fairy);
             }
         }
-
     }
 
     public void Petrify()
     {
-        Debug.Log("Petryfiying: " + gameObject.name);
-
-
         if (GameManager.Instance.gameState != GameManager.GameState.Outro ||
            GameManager.Instance.gameState != GameManager.GameState.Intro ||
            GameManager.Instance.gameState != GameManager.GameState.PreLevel)
@@ -191,13 +187,9 @@ public class Fairy : MonoBehaviour
 
     private void LookForHelp()
     {
-        Debug.Log("Looking for help " + this.transform);
-
         foreach (GameObject otherFairy in otherFairies)
         {
-            float distance = Vector3.Distance(transform.position, otherFairy.transform.position);
-
-            Debug.Log("Checking: " + otherFairy.name);
+            float distance = Vector3.Distance(transform.position, otherFairy.transform.position);            
 
             if (distance < teamUpDistance &&
                 otherFairy.GetComponent<Fairy>().fairyState != Fairy.FairyState.Petrified
@@ -211,8 +203,6 @@ public class Fairy : MonoBehaviour
 
     public float CalculatePath(Vector3 targetPosition)
     {
-
-
         NavMesh.CalculatePath(transform.position, targetPosition, NavMesh.AllAreas, path);
 
         if (path != null && path.corners.Length > 1)
@@ -223,14 +213,7 @@ public class Fairy : MonoBehaviour
                 lineRenderer.SetPosition(i, path.corners[i] + new Vector3(0, transform.position.y, 0));
             }
         }
-
         lineRenderer.SetPositions(path.corners);
-
-
-
-
-        //energyBar.transform.localScale = new Vector3(lengthToOne, 0, 0);
-
         float length = PathCalculations.PathLength(path);
         return length;
     }
@@ -250,8 +233,7 @@ public class Fairy : MonoBehaviour
         if (MovementLeft())
             pathLengthLeft = 0;
         isSelected = false;
-        selectedIndicator.SetActive(false);
-        //energyContainer.SetActive(false);
+        selectedIndicator.SetActive(false);       
         if (fairyState != FairyState.Petrified)
         {
             FMODUnity.RuntimeManager.PlayOneShot(setDestinationSound);

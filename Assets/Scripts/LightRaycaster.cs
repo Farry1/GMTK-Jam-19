@@ -60,7 +60,6 @@ public class LightRaycaster : MonoBehaviour
             }
         }
 
-        Debug.Log("return false");
         return false;
     }
 }

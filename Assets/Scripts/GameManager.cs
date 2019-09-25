@@ -33,6 +33,10 @@ public class GameManager : MonoBehaviour
     bool isPlayingIntro = false;
     bool isHandlingGameOver = false;
 
+    public delegate void TooltipAction();
+    public static event TooltipAction OnPlayerTurn;
+    public static event TooltipAction OnEnemyTurn;
+
     private FMODUnity.StudioEventEmitter ambienceEmitter;
 
     private static GameManager _instance;
@@ -71,16 +75,16 @@ public class GameManager : MonoBehaviour
     {
         switch (gameState)
         {
-            case GameState.PreLevel:                
+            case GameState.PreLevel:
                 break;
 
-            case GameState.Intro:               
+            case GameState.Intro:
                 turnText.text = "Initialising";
                 if (!isPlayingIntro)
                     StartCoroutine(IntroAnimation());
                 break;
             case GameState.EnemyTurn:
-                
+
                 OnPause();
                 break;
             case GameState.PlayerTurn:
@@ -89,15 +93,15 @@ public class GameManager : MonoBehaviour
                 CheckWinCondition();
                 break;
 
-            case GameState.Outro:                
+            case GameState.Outro:
                 if (!isPlayingOutro)
                     StartCoroutine(OutroAnimations());
                 break;
             case GameState.Pause:
-                
+
                 OnResumeGame();
                 break;
-            case GameState.GameOver:                
+            case GameState.GameOver:
                 if (!isHandlingGameOver)
                     StartCoroutine(HandleGameOver());
 
@@ -178,6 +182,7 @@ public class GameManager : MonoBehaviour
         GhostController.Instance.HighlightTargetWaypoint();
         FairyMovementController.Instance.ResetAllFairies();
         turnIndicatorImage.sprite = playerTurnIndicatorSprite;
+        OnPlayerTurn();
     }
 
     public void SwitchToEnemyTurn()
@@ -187,6 +192,7 @@ public class GameManager : MonoBehaviour
         turnText.text = "Enemy Turn";
         UIController.Instance.nextTurnButton.SetActive(false);
         turnIndicatorImage.sprite = enemyTurnIndicatorSprite;
+        OnEnemyTurn();
     }
 
     public void ReloadScene()

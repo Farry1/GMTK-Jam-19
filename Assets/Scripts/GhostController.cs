@@ -22,6 +22,8 @@ public class GhostController : MonoBehaviour
     [HideInInspector] public Light light;
     [HideInInspector] public LightRaycaster lightRaycaster;
 
+    
+
 
     private int currentWaypointIndex = 0;
 
