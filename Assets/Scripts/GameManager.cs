@@ -207,7 +207,7 @@ public class GameManager : MonoBehaviour
 
     public void ReloadScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single); 
     }
 
     public void LoadNextScene()
@@ -246,6 +246,7 @@ public class GameManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(2f);
+        isPlayingIntro = false;
         SwitchToPlayerTurn();
         UIController.Instance.menuButton.SetActive(true);
     }

@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
+  m_FogColor: {r: 0, g: 0.29411766, b: 0.2627451, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.02
   m_LinearFogStart: 0
@@ -23,10 +23,10 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0, g: 0.015686275, b: 0.25, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 1
-  m_AmbientMode: 3
+  m_AmbientIntensity: 0.9
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 2d59d810ba900874295015e507e19f2e, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.022735892, g: 0.059158243, b: 0.03753988, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -96,7 +96,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 278eebcb852e868489e1ffb3b2dcf931,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -3983,7 +3984,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 9
   m_Type: 1
-  m_Color: {r: 0.6313726, g: 0.6627451, b: 0.8, a: 1}
+  m_Color: {r: 0, g: 0.23137257, b: 0.20392159, a: 1}
   m_Intensity: 0.14
   m_Range: 10
   m_SpotAngle: 30
@@ -8138,8 +8139,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 9
   m_Type: 1
-  m_Color: {r: 0.6313726, g: 0.6627451, b: 0.8, a: 1}
-  m_Intensity: 0.4
+  m_Color: {r: 0, g: 0.30588236, b: 0.28235295, a: 1}
+  m_Intensity: 0.21
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -8589,11 +8590,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1052726805693493837, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1323204959712037370, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
         type: 3}
       propertyPath: m_Name
@@ -8668,6 +8664,11 @@ PrefabInstance:
         type: 3}
       propertyPath: levelDescription
       value: Two Shadow Fairies meet under a tree. They avoid the light.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1323204959712037369, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
+        type: 3}
+      propertyPath: nextSceneName
+      value: Level2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbd5f5c4428156a488bc9dd0ba08a9af, type: 3}

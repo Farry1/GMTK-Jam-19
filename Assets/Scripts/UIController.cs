@@ -204,7 +204,7 @@ public class UIController : MonoBehaviour
 
     void TooltipFairyInDanger()
     {
-        if (!tooltipsDisabled)
+        if (!tooltipsDisabled && tooltips != null)
             tooltips.SetActive(true);
 
         tooltipText.text = "This path is not secure. You will probably get hit by light";
