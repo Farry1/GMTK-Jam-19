@@ -15,8 +15,11 @@ public class FairyMovementController : MonoBehaviour
     public RaycastHit mouseHit;
     int notNavigableLayer = 11;
 
+    private bool isCurrentPathSecure = true;
+
     public delegate void TooltipAction();
     public static event TooltipAction OnFairySelected;
+    public static event TooltipAction OnFairyInDanger;
     public static event TooltipAction OnFairyUnselected;
     public static event TooltipAction OnPathTooLong;
 
@@ -43,9 +46,41 @@ public class FairyMovementController : MonoBehaviour
         GetAllFairies();
     }
 
+    private void OnEnable()
+    {
+        Fairy.OnFairyDiesOnPath += CurrentPathInsecure;
+        Fairy.OnFairySecurePath += CurrentPathSecure;
+    }
+
+    private void OnDisable()
+    {
+        Fairy.OnFairyDiesOnPath -= CurrentPathInsecure;
+        Fairy.OnFairySecurePath -= CurrentPathSecure;
+    }
+
+    void CurrentPathSecure()
+    {
+        isCurrentPathSecure = true;
+    }
+
+    void CurrentPathInsecure()
+    {
+        isCurrentPathSecure = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (selectedFairy != null)
+        {
+            UIController.Instance.diePositionIcon.SetActive(!isCurrentPathSecure);
+        }
+        else
+        {
+            UIController.Instance.diePositionIcon.SetActive(false);
+        }
+
+
         if (NoFairyCanMove() && GameManager.Instance.gameState == GameManager.GameState.PlayerTurn)
         {
             UIController.Instance.nextTurnTooltip.SetActive(true);
@@ -67,24 +102,40 @@ public class FairyMovementController : MonoBehaviour
                 GameManager.Instance.gameState == GameManager.GameState.PlayerTurn)
             {
 
-                if (!IsPositionSave(mouseHit.point))
-                    MouseStateIndicator.Instance.SetMouseStateDanger();
-                else
-                    MouseStateIndicator.Instance.UnsetMouseState();
+                //if (!IsPositionSave(mouseHit.point))
+                //    MouseStateIndicator.Instance.SetMouseStateDanger();
+                //else
+                //    MouseStateIndicator.Instance.UnsetMouseState();
 
 
                 if (selectedFairy.CalculatePath(mouseHit.point) > selectedFairy.pathLengthLeft)
                 {
                     //Debug.Log("Can't Move");
                     selectedFairy.canMove = false;
-                    selectedFairy.lineRenderer.material = lineFail;
-                    OnPathTooLong();
+
+                    if (!isCurrentPathSecure)
+                    {
+                        selectedFairy.lineRenderer.material = lineFail;
+                        OnFairyInDanger();
+                    }
+                    else
+                    {
+                        OnPathTooLong();
+                        selectedFairy.lineRenderer.material = lineFail;
+                    }
                 }
                 else
                 {
-                    selectedFairy.canMove = true;
-                    selectedFairy.lineRenderer.material = lineDefault;
-                    OnFairySelected();
+                    if (!isCurrentPathSecure)
+                    {
+                        selectedFairy.lineRenderer.material = lineFail;
+                        OnFairyInDanger();
+                    } else
+                    {
+                        selectedFairy.lineRenderer.material = lineDefault;
+                        OnFairySelected();
+                    }
+                    selectedFairy.canMove = true;                    
                 }
             }
 
@@ -92,9 +143,6 @@ public class FairyMovementController : MonoBehaviour
             if (Input.GetMouseButtonDown(0) &&
                 GameManager.Instance.gameState == GameManager.GameState.PlayerTurn)
             {
-
-
-
                 if (mouseHit.collider.tag == "Player")
                 {
                     if (selectedFairy != null)
@@ -123,7 +171,7 @@ public class FairyMovementController : MonoBehaviour
                     {
                         selectedFairy.SetPath();
                         selectedFairy = null;
-                        MouseStateIndicator.Instance.UnsetMouseState();
+                        //MouseStateIndicator.Instance.UnsetMouseState();
                         OnFairyUnselected();
                     }
                 }
@@ -137,7 +185,7 @@ public class FairyMovementController : MonoBehaviour
                     selectedFairy.selectedIndicator.SetActive(false);
                     //selectedFairy.energyContainer.SetActive(false);
                     selectedFairy = null;
-                    MouseStateIndicator.Instance.UnsetMouseState();
+                    //MouseStateIndicator.Instance.UnsetMouseState();
                     OnFairyUnselected();
                 }
             }
@@ -149,22 +197,19 @@ public class FairyMovementController : MonoBehaviour
     {
         if (GameManager.Instance.gameState == GameManager.GameState.PlayerTurn)
             Debug.Log("Get Next");
-
     }
 
 
-    private bool IsPositionSave(Vector3 point)
+    public bool PositionIsSave(Vector3 point)
     {
         point += new Vector3(0, 0.355f, 0);
-
-
 
         Vector3 direction = GhostController.Instance.light.transform.position - point;
         RaycastHit hit;
 
         Ray ray = new Ray(point, direction);
 
-        Debug.DrawRay(ray.origin, ray.direction * 6, Color.red);
+        Debug.DrawRay(ray.origin, ray.direction * 6, Color.red, 0.2f);
 
         if (Physics.SphereCast(ray, 0.2f, out hit, GhostController.Instance.lightRaycaster.maxDetectionRange))
         {

@@ -56,6 +56,11 @@ public class Fairy : MonoBehaviour
 
     private List<GameObject> otherFairies = new List<GameObject>();
 
+    public delegate void PathIsSave();
+    public static event PathIsSave OnFairyDiesOnPath;
+    public static event PathIsSave OnFairySecurePath;
+
+
     private void Awake()
     {
 
@@ -189,7 +194,7 @@ public class Fairy : MonoBehaviour
     {
         foreach (GameObject otherFairy in otherFairies)
         {
-            float distance = Vector3.Distance(transform.position, otherFairy.transform.position);            
+            float distance = Vector3.Distance(transform.position, otherFairy.transform.position);
 
             if (distance < teamUpDistance &&
                 otherFairy.GetComponent<Fairy>().fairyState != Fairy.FairyState.Petrified
@@ -205,6 +210,8 @@ public class Fairy : MonoBehaviour
     {
         NavMesh.CalculatePath(transform.position, targetPosition, NavMesh.AllAreas, path);
 
+        bool willDie = false;
+
         if (path != null && path.corners.Length > 1)
         {
             lineRenderer.positionCount = path.corners.Length;
@@ -212,7 +219,52 @@ public class Fairy : MonoBehaviour
             {
                 lineRenderer.SetPosition(i, path.corners[i] + new Vector3(0, transform.position.y, 0));
             }
+
+            //Check if Route is save and set Icon
+            //for (int i = 0; i < path.corners.Length-1; i++)
+            //{                
+            //    for (float j = 0; j <= 1; j += 0.05f)
+            //    {
+            //        Vector3 lerpedPosition = Vector3.Lerp(path.corners[i], path.corners[i+1], j);
+            //        if (!FairyMovementController.Instance.IsPositionSave(lerpedPosition))
+            //        {
+            //            UIController.Instance.diePositionIcon.transform.position = lerpedPosition;
+            //            UIController.Instance.diePositionIcon.SetActive(true);
+            //            WillDieOnThisPath = true;
+            //            break;
+            //        }
+            //        else
+            //        {
+            //            UIController.Instance.diePositionIcon.SetActive(false);
+            //            WillDieOnThisPath = false;
+            //        }
+            //    }
+            //}
+
+            bool pathInsecure = false;
+
+            for (int i = path.corners.Length - 1; i > 0; i--)
+            {
+                for (float j = 0; j <= 1; j += 0.05f)
+                {
+                    Vector3 lerpedPosition = Vector3.Lerp(path.corners[i - 1], path.corners[i], j);
+                    if (FairyMovementController.Instance.PositionIsSave(lerpedPosition))
+                    {
+                        if (!pathInsecure)
+                            OnFairySecurePath();
+                    }
+                    else
+                    {
+                        UIController.Instance.diePositionIcon.transform.position = lerpedPosition;
+
+                        OnFairyDiesOnPath();
+                        pathInsecure = true;
+                        break;
+                    }
+                }
+            }
         }
+
         lineRenderer.SetPositions(path.corners);
         float length = PathCalculations.PathLength(path);
         return length;
@@ -233,7 +285,7 @@ public class Fairy : MonoBehaviour
         if (MovementLeft())
             pathLengthLeft = 0;
         isSelected = false;
-        selectedIndicator.SetActive(false);       
+        selectedIndicator.SetActive(false);
         if (fairyState != FairyState.Petrified)
         {
             FMODUnity.RuntimeManager.PlayOneShot(setDestinationSound);

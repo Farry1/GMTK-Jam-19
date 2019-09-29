@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     public delegate void TooltipAction();
     public static event TooltipAction OnPlayerTurn;
     public static event TooltipAction OnEnemyTurn;
+    public static event TooltipAction OnLevelOver;
 
     private FMODUnity.StudioEventEmitter ambienceEmitter;
 
@@ -94,16 +95,25 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Outro:
+                OnLevelOver();
                 if (!isPlayingOutro)
+                {
+                    OnLevelOver();
                     StartCoroutine(OutroAnimations());
+                }
+
                 break;
             case GameState.Pause:
-
+                OnLevelOver();
                 OnResumeGame();
                 break;
             case GameState.GameOver:
                 if (!isHandlingGameOver)
+                {
+                    OnLevelOver();
                     StartCoroutine(HandleGameOver());
+                }
+
 
                 turnText.text = "GameOver";
                 break;

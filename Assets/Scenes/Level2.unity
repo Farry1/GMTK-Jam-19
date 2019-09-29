@@ -4516,105 +4516,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1323204959374497840, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
+    - target: {fileID: 1323204958628777963, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
         type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959374497840, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959374497840, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959374497840, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204958022263438, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204958022263438, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204958022263438, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204958022263438, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959479581444, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959479581444, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959479581444, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959479581444, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959789873582, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959789873582, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959789873582, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959789873582, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959712037369, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: nextSceneName
-      value: Level3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959712037369, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: levelNumber
-      value: Scene 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959712037369, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: levelName
-      value: Lost
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959712037369, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: levelDescription
-      value: After a long wandering in the darkness a lose Fairy was found.
+      propertyPath: diePositionIcon
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbd5f5c4428156a488bc9dd0ba08a9af, type: 3}
@@ -6207,6 +6112,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MouseStateIndicator
       objectReference: {fileID: 0}
+    - target: {fileID: 589215417491535246, guid: 40fbffa7268a53940b5a8aa84cefbeca,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 589215417491535247, guid: 40fbffa7268a53940b5a8aa84cefbeca,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6260,6 +6170,11 @@ PrefabInstance:
     - target: {fileID: 589215417491535247, guid: 40fbffa7268a53940b5a8aa84cefbeca,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589215416664760439, guid: 40fbffa7268a53940b5a8aa84cefbeca,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

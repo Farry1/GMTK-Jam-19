@@ -27,6 +27,10 @@ public class UIController : MonoBehaviour
     public GameObject nextTurnTooltip;
     public GameObject tooltips;
     public Text tooltipText;
+    public Toggle tooltipToggle;
+    public GameObject diePositionIcon;
+
+    bool tooltipsDisabled;
 
     private string[] tipsContainer =
         { "Use Middle Mouse Button to rotate",
@@ -50,15 +54,19 @@ public class UIController : MonoBehaviour
     {
         GameManager.OnPlayerTurn += TooltipPlayerTurn;
         GameManager.OnEnemyTurn += DisableTooltipText;
+        GameManager.OnLevelOver += DisableTooltipText;
         FairyMovementController.OnFairySelected += TooltipFairySelected;
         FairyMovementController.OnFairyUnselected += TooltipPlayerTurn;
         FairyMovementController.OnPathTooLong += TooltipPathTooLong;
+        FairyMovementController.OnFairyInDanger += TooltipFairyInDanger;
     }
 
     private void OnDisable()
     {
         GameManager.OnPlayerTurn -= TooltipPlayerTurn;
         GameManager.OnEnemyTurn -= DisableTooltipText;
+        GameManager.OnLevelOver -= DisableTooltipText;
+        FairyMovementController.OnFairySelected -= TooltipFairyInDanger;
         FairyMovementController.OnFairySelected -= TooltipFairySelected;
         FairyMovementController.OnFairyUnselected -= TooltipPlayerTurn;
         FairyMovementController.OnPathTooLong -= TooltipPathTooLong;
@@ -152,7 +160,8 @@ public class UIController : MonoBehaviour
 
     void TooltipPlayerTurn()
     {
-        tooltips.SetActive(true);
+        if (!tooltipsDisabled)
+            tooltips.SetActive(true);
 
         if (FairyMovementController.Instance.NoFairyCanMove())
         {
@@ -172,13 +181,16 @@ public class UIController : MonoBehaviour
 
     void TooltipFairySelected()
     {
-        tooltips.SetActive(true);
+        if (!tooltipsDisabled)
+            tooltips.SetActive(true);
         tooltipText.text = "Select a destination and click to move.";
     }
 
     void TooltipPathTooLong()
     {
-        tooltips.SetActive(true);
+        if (!tooltipsDisabled)
+            tooltips.SetActive(true);
+
 
         if (FairyMovementController.Instance.NoFairyCanMove())
         {
@@ -188,7 +200,27 @@ public class UIController : MonoBehaviour
         {
             tooltipText.text = "The distance is too far.";
         }
+    }
 
+    void TooltipFairyInDanger()
+    {
+        if (!tooltipsDisabled)
+            tooltips.SetActive(true);
+
+        tooltipText.text = "This path is not secure. You will probably get hit by light";
+    }
+
+    public void DisableTooltips()
+    {
+        if (tooltipToggle.isOn)
+        {
+            tooltipsDisabled = true;
+            tooltips.SetActive(false);
+        }
+        else
+        {
+            tooltipText.text = "Activate the checkbox to make sure you want to disable tips.";
+        }
     }
 }
 

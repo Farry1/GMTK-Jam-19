@@ -66,6 +66,7 @@
     <Compile Include="Assets\ResonanceAudio\Scripts\FmodResonanceAudioRoom.cs" />
     <Compile Include="Assets\Scripts\AlwaysFaceCamera.cs" />
     <Compile Include="Assets\Scripts\CameraMovement.cs" />
+    <Compile Include="Assets\Scripts\FaceCameraDisabledAtStart.cs" />
     <Compile Include="Assets\Scripts\FairyMovement\Fairy.cs" />
     <Compile Include="Assets\Scripts\FairyMovement\FairyMovementController.cs" />
     <Compile Include="Assets\Scripts\FairyMovement\LightDetector.cs" />

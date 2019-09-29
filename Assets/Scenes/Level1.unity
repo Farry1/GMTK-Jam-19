@@ -8283,75 +8283,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1625763351}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &589215416204358128
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 589215417491535246, guid: 40fbffa7268a53940b5a8aa84cefbeca,
-        type: 3}
-      propertyPath: m_Name
-      value: MouseStateIndicator
-      objectReference: {fileID: 0}
-    - target: {fileID: 589215417491535247, guid: 40fbffa7268a53940b5a8aa84cefbeca,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 589215417491535247, guid: 40fbffa7268a53940b5a8aa84cefbeca,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 589215417491535247, guid: 40fbffa7268a53940b5a8aa84cefbeca,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 589215417491535247, guid: 40fbffa7268a53940b5a8aa84cefbeca,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 589215417491535247, guid: 40fbffa7268a53940b5a8aa84cefbeca,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 589215417491535247, guid: 40fbffa7268a53940b5a8aa84cefbeca,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 589215417491535247, guid: 40fbffa7268a53940b5a8aa84cefbeca,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 589215417491535247, guid: 40fbffa7268a53940b5a8aa84cefbeca,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 589215417491535247, guid: 40fbffa7268a53940b5a8aa84cefbeca,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 589215417491535247, guid: 40fbffa7268a53940b5a8aa84cefbeca,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 589215417491535247, guid: 40fbffa7268a53940b5a8aa84cefbeca,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 40fbffa7268a53940b5a8aa84cefbeca, type: 3}
 --- !u!1001 &1106064286038734729
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8658,6 +8589,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1052726805693493837, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1323204959712037370, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
         type: 3}
       propertyPath: m_Name
@@ -8718,85 +8654,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1323204959374497840, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
+    - target: {fileID: 1323204959712037369, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
         type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
+      propertyPath: levelNumber
+      value: Scene 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1323204959374497840, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
+    - target: {fileID: 1323204959712037369, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
         type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
+      propertyPath: levelName
+      value: Meeting
       objectReference: {fileID: 0}
-    - target: {fileID: 1323204959374497840, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
+    - target: {fileID: 1323204959712037369, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
         type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959374497840, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204958022263438, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204958022263438, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204958022263438, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204958022263438, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959479581444, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959479581444, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959479581444, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959479581444, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959789873582, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959789873582, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959789873582, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323204959789873582, guid: fbd5f5c4428156a488bc9dd0ba08a9af,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
+      propertyPath: levelDescription
+      value: Two Shadow Fairies meet under a tree. They avoid the light.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbd5f5c4428156a488bc9dd0ba08a9af, type: 3}
